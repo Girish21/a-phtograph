@@ -6,4 +6,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="network_error_message">Sorry, No network detected. Please switch on your cellular data or Wifi.</string>
+    <string name="retry">Retry</string>
+    <string name="sort">Sort</string>
 </resources>

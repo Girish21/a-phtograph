@@ -1,11 +1,14 @@
-package com.girish.aphotograph.extras;
+package com.girish.aphotograph.util;
 
 import com.google.gson.annotations.SerializedName;
+
+import org.parceler.Parcel;
 
 /**
  * Created by Girish on 11-Dec-17.
  */
 
+@Parcel
 public class PhotoDetails {
 
     @SerializedName("id")

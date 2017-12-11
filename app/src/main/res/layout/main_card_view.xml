@@ -6,6 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="150dp"
     android:layout_margin="8dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?android:attr/selectableItemBackground"
     android:padding="8dp">
 
     <RelativeLayout
@@ -16,7 +19,7 @@
             android:id="@+id/card_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitCenter" />
+            android:scaleType="fitXY" />
 
         <TextView
             android:id="@+id/card_title"
@@ -26,8 +29,8 @@
             android:layout_marginBottom="0dp"
             android:background="@drawable/card_text_background"
             android:ellipsize="end"
-            android:padding="16dp"
             android:maxLines="1"
+            android:padding="16dp"
             android:textColor="#fff" />
 
     </RelativeLayout>
