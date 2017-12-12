@@ -51,10 +51,11 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <com.girish.aphotograph.adapter.GridRecyclerView
         android:id="@+id/popular_recycle_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layoutAnimation="@anim/grid_animate_from_bottom"
         android:scrollbars="vertical"
         android:visibility="gone" />
 

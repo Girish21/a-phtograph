@@ -10,6 +10,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -66,10 +68,6 @@ public class EditorsChoice extends Fragment {
         connectionError = view.findViewById(R.id.no_network);
         retryFetch = view.findViewById(R.id.retry_connection);
 
-        Log.i("oncreate", "ran");
-        if (recyclerView != null)
-            Log.i("recycle", "not null");
-
         retryFetch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -80,6 +78,9 @@ public class EditorsChoice extends Fragment {
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recyclerView.setHasFixedSize(true);
 
+        LayoutAnimationController controller = AnimationUtils.loadLayoutAnimation(getActivity(), R.anim.grid_animate_from_bottom);
+        recyclerView.setLayoutAnimation(controller);
+
         retrofit = MyApplication.getRetrofitApiClient();
         util = retrofit.create(RetrofitUtil.class);
 
@@ -89,13 +90,12 @@ public class EditorsChoice extends Fragment {
                 progressBar.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
                 recyclerView.setAdapter(new RecyclerAdapter(getContext(), dataModel));
+                recyclerView.scheduleLayoutAnimation();
             } else {
                 sendRequest(EndPoints.BY_CREAED_AT);
-                recyclerView.setAdapter(new RecyclerAdapter(getContext(), dataModel));
             }
         } else {
             sendRequest(EndPoints.BY_CREAED_AT);
-            recyclerView.setAdapter(new RecyclerAdapter(getContext(), dataModel));
         }
 
         recyclerView.addOnItemTouchListener(new RecyclerClickListener(getContext(), recyclerView, new TouchListener() {
@@ -139,6 +139,7 @@ public class EditorsChoice extends Fragment {
                         connectionError.setVisibility(View.GONE);
                         recyclerView.setVisibility(View.VISIBLE);
                         recyclerView.setAdapter(new RecyclerAdapter(getContext(), dataModel));
+                        recyclerView.scheduleLayoutAnimation();
                     }
 
                     @Override

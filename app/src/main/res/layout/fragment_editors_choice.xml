@@ -46,14 +46,15 @@
             android:focusable="true"
             android:foreground="?android:attr/selectableItemBackground"
             android:text="@string/retry"
-            android:textColor="#fff"/>
+            android:textColor="#fff" />
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
+    <com.girish.aphotograph.adapter.GridRecyclerView
         android:id="@+id/editors_recycle_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layoutAnimation="@anim/grid_animate_from_bottom"
         android:scrollbars="vertical"
         android:visibility="gone" />
 

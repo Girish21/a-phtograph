@@ -82,6 +82,7 @@ public class Popular extends Fragment {
                 progressBar.setVisibility(View.GONE);
                 recyclerView.setVisibility(View.VISIBLE);
                 recyclerView.setAdapter(new RecyclerAdapter(getContext(), dataModel));
+                recyclerView.scheduleLayoutAnimation();
             } else
                 sendRequest(EndPoints.BY_CREAED_AT);
         } else {
@@ -130,6 +131,7 @@ public class Popular extends Fragment {
                         connectionError.setVisibility(View.GONE);
                         recyclerView.setVisibility(View.VISIBLE);
                         recyclerView.setAdapter(new RecyclerAdapter(getContext(), dataModel));
+                        recyclerView.scheduleLayoutAnimation();
                     }
 
                     @Override
