@@ -12,19 +12,19 @@ import org.parceler.Parcel;
 public class PhotoDetails {
 
     @SerializedName("id")
-    private
+    public
     long id;
 
     @SerializedName("name")
-    private
+    public
     String name;
 
     @SerializedName("description")
-    private
+    public
     String description;
 
     @SerializedName("image_url")
-    private
+    public
     String url;
 
     public long getId() {

@@ -54,15 +54,21 @@ public class EditorsChoice extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_editors_choice, container, false);
+
+        setRetainInstance(true);
 
         recyclerView = view.findViewById(R.id.editors_recycle_view);
         progressBar = view.findViewById(R.id.editors_progress);
         connectionError = view.findViewById(R.id.no_network);
         retryFetch = view.findViewById(R.id.retry_connection);
+
+        Log.i("oncreate", "ran");
+        if (recyclerView != null)
+            Log.i("recycle", "not null");
 
         retryFetch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,8 +114,7 @@ public class EditorsChoice extends Fragment {
     }
 
     private void sendRequest(String sortBy) {
-        if (CheckConnection.isInternetAvailable(getContext())) {
-
+        if (CheckConnection.isInternetAvailable(getActivity())) {
             switch (sortBy) {
                 case EndPoints.BY_CREAED_AT:
                     dataModelCall = util.listGetData(QueryParamsUtil.getQuery(EndPoints.EDITORS,
@@ -152,9 +157,13 @@ public class EditorsChoice extends Fragment {
     }
 
     public void sortData(String sortBy) {
-        recyclerView.setVisibility(View.GONE);
-        progressBar.setVisibility(View.VISIBLE);
-        sendRequest(sortBy);
+        try {
+            recyclerView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+            sendRequest(sortBy);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

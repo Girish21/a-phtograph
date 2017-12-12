@@ -2,7 +2,7 @@ package com.girish.aphotograph.activity;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -16,6 +16,7 @@ import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 
 import com.girish.aphotograph.R;
 import com.girish.aphotograph.extra.EndPoints;
@@ -33,20 +34,27 @@ public class MainActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager viewPager;
     EditorsChoice editorsChoice;
-    Popular popular;
+    Popular popularFragment;
+    Bundle savedState;
 
     List<Fragment> fragments;
 
     int editorChecked = 0, popularChecked = 0;
+    boolean editor = false, popular = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        savedState = savedInstanceState;
+
+        editorsChoice = new EditorsChoice();
+        popularFragment = new Popular();
+
         fragments = new ArrayList<>();
-        fragments.add(new EditorsChoice());
-        fragments.add(new Popular());
+        fragments.add(editorsChoice);
+        fragments.add(popularFragment);
 
         toolbar = findViewById(R.id.tool_bar);
         setSupportActionBar(toolbar);
@@ -60,6 +68,15 @@ public class MainActivity extends AppCompatActivity {
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
         viewPager.setAdapter(new ViewPagerAdapter(getSupportFragmentManager(), fragments));
+        viewPager.setOffscreenPageLimit(2);
+
+        if (savedInstanceState != null) {
+            editorChecked = savedInstanceState.getInt("com.girish.aphotograph.editorChecked");
+            popularChecked = savedInstanceState.getInt("com.girish.aphotograph.popularChecked");
+
+            Log.i("editor", "" + editorChecked);
+            Log.i("popularFragment", "" + popularChecked);
+        }
 
     }
 
@@ -94,13 +111,13 @@ public class MainActivity extends AppCompatActivity {
 
         if (item.getItemId() == R.id.sort) {
             if (fragments.get(viewPager.getCurrentItem()) instanceof EditorsChoice) {
-                editorsChoice = (EditorsChoice) fragments.get(viewPager.getCurrentItem());
+                editor = true;
                 Log.i("Instance", "editor");
             } else if (fragments.get(viewPager.getCurrentItem()) instanceof Popular) {
-                popular = (Popular) fragments.get(viewPager.getCurrentItem());
-                Log.i("Instance", "popular");
+                popular = true;
+                Log.i("Instance", "popularFragment");
             }
-            if (editorsChoice != null) {
+            if (editor) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Sort by")
                         .setSingleChoiceItems(new String[]{"Create at", "Highest rating", "Most viewed"},
@@ -109,22 +126,31 @@ public class MainActivity extends AppCompatActivity {
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         switch (i) {
                                             case 0:
-                                                editorChecked = 0;
-                                                editorsChoice.sortData(EndPoints.BY_CREAED_AT);
+                                                if (editorChecked != i)
+                                                    doSort(0, EndPoints.BY_CREAED_AT);
+//                                                    editorsChoice.sortData(EndPoints.BY_CREAED_AT);
                                                 dialogInterface.dismiss();
-                                                editorsChoice = null;
+//                                                editorsChoice = null;
+                                                editor = false;
+                                                editorChecked = 0;
                                                 break;
                                             case 1:
-                                                editorChecked = 1;
-                                                editorsChoice.sortData(EndPoints.BY_RATING);
+                                                if (editorChecked != i)
+                                                    doSort(0, EndPoints.BY_RATING);
+//                                                    editorsChoice.sortData(EndPoints.BY_RATING);
                                                 dialogInterface.dismiss();
-                                                editorsChoice = null;
+//                                                editorsChoice = null;
+                                                editor = false;
+                                                editorChecked = 1;
                                                 break;
                                             case 2:
-                                                editorChecked = 2;
-                                                editorsChoice.sortData(EndPoints.BY_TIMES_VIEWED);
+                                                if (editorChecked != i)
+                                                    doSort(0, EndPoints.BY_TIMES_VIEWED);
+//                                                    editorsChoice.sortData(EndPoints.BY_TIMES_VIEWED);
                                                 dialogInterface.dismiss();
-                                                editorsChoice = null;
+//                                                editorsChoice = null;
+                                                editor = false;
+                                                editorChecked = 2;
                                                 break;
                                         }
                                     }
@@ -132,10 +158,11 @@ public class MainActivity extends AppCompatActivity {
                         .setOnDismissListener(new DialogInterface.OnDismissListener() {
                             @Override
                             public void onDismiss(DialogInterface dialogInterface) {
-                                editorsChoice = null;
+//                                editorsChoice = null;
+                                editor = false;
                             }
                         }).show();
-            } else if (popular != null) {
+            } else if (popular) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle("Sort by")
                         .setSingleChoiceItems(new String[]{"Create at", "Highest rating", "Most viewed"},
@@ -144,22 +171,31 @@ public class MainActivity extends AppCompatActivity {
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         switch (i) {
                                             case 0:
-                                                popularChecked = 0;
-                                                popular.sortData(EndPoints.BY_CREAED_AT);
+                                                if (popularChecked != i)
+                                                    doSort(1, EndPoints.BY_CREAED_AT);
+//                                                    popularFragment.sortData(EndPoints.BY_CREAED_AT);
                                                 dialogInterface.dismiss();
-                                                popular = null;
+//                                                popularFragment = null;
+                                                popular = false;
+                                                popularChecked = 0;
                                                 break;
                                             case 1:
-                                                popularChecked = 1;
-                                                popular.sortData(EndPoints.BY_RATING);
+                                                if (popularChecked != i)
+                                                    doSort(1, EndPoints.BY_RATING);
+//                                                    popularFragment.sortData(EndPoints.BY_RATING);
                                                 dialogInterface.dismiss();
-                                                popular = null;
+//                                                popularFragment = null;
+                                                popular = false;
+                                                popularChecked = 1;
                                                 break;
                                             case 2:
-                                                popularChecked = 2;
-                                                popular.sortData(EndPoints.BY_TIMES_VIEWED);
+                                                if (popularChecked != i)
+                                                    doSort(1, EndPoints.BY_TIMES_VIEWED);
+//                                                    popularFragment.sortData(EndPoints.BY_TIMES_VIEWED);
                                                 dialogInterface.dismiss();
-                                                popular = null;
+//                                                popularFragment = null;
+                                                popular = false;
+                                                popularChecked = 2;
                                                 break;
                                         }
                                     }
@@ -167,13 +203,48 @@ public class MainActivity extends AppCompatActivity {
                         .setOnDismissListener(new DialogInterface.OnDismissListener() {
                             @Override
                             public void onDismiss(DialogInterface dialogInterface) {
-                                popular = null;
+//                                popularFragment = null;
+                                popular = false;
                             }
                         }).show();
             }
         }
 
         return true;
+    }
+
+    public void doSort(int type, String sortType) {
+        if (savedState == null) {
+            switch (type) {
+                case 0:
+                    editorsChoice = (EditorsChoice) fragments.get(viewPager.getCurrentItem());
+                    editorsChoice.sortData(sortType);
+                    break;
+                case 1:
+                    popularFragment = (Popular) fragments.get(viewPager.getCurrentItem());
+                    popularFragment.sortData(sortType);
+                    break;
+            }
+        } else {
+            switch (type) {
+                case 0:
+                    editorsChoice.sortData(sortType);
+                    break;
+                case 1:
+                    popularFragment.sortData(sortType);
+                    break;
+            }
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("com.girish.aphotograph.editorChecked", editorChecked);
+        outState.putInt("com.girish.aphotograph.popularChecked", popularChecked);
+
+        Log.i("savededitor", "" + editorChecked);
+        Log.i("savedpopular", "" + popularChecked);
     }
 
     class ViewPagerAdapter extends FragmentStatePagerAdapter {
@@ -183,6 +254,25 @@ public class MainActivity extends AppCompatActivity {
         ViewPagerAdapter(FragmentManager fm, List<Fragment> fragments) {
             super(fm);
             this.fragments = fragments;
+        }
+
+        @NonNull
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            Fragment createdFragment = (Fragment) super.instantiateItem(container, position);
+
+            switch (position) {
+                case 0:
+                    editorsChoice = (EditorsChoice) createdFragment;
+                    Log.i("ECheck", "" + editorsChoice.isAdded());
+                    break;
+                case 1:
+                    popularFragment = (Popular) createdFragment;
+                    Log.i("PCheck", "" + popularFragment.isAdded());
+                    break;
+            }
+
+            return createdFragment;
         }
 
         @Override
