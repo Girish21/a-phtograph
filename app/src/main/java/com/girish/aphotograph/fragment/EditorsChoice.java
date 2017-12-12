@@ -1,6 +1,7 @@
 package com.girish.aphotograph.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -15,10 +16,10 @@ import android.view.animation.LayoutAnimationController;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.girish.aphotograph.MyApplication;
 import com.girish.aphotograph.R;
+import com.girish.aphotograph.activity.ViewActivity;
 import com.girish.aphotograph.adapter.RecyclerAdapter;
 import com.girish.aphotograph.adapter.RecyclerClickListener;
 import com.girish.aphotograph.adapter.TouchListener;
@@ -28,7 +29,6 @@ import com.girish.aphotograph.extra.QueryParamsUtil;
 import com.girish.aphotograph.util.ParseDataModel;
 import com.girish.aphotograph.util.RetrofitUtil;
 
-import org.parceler.Parcel;
 import org.parceler.Parcels;
 
 import retrofit2.Call;
@@ -101,7 +101,11 @@ public class EditorsChoice extends Fragment {
         recyclerView.addOnItemTouchListener(new RecyclerClickListener(getContext(), recyclerView, new TouchListener() {
             @Override
             public void onClick(View view, int position) {
-                Toast.makeText(getContext(), "Clicked: " + position, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getContext(), "Clicked: " + position, Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), ViewActivity.class);
+                intent.putExtra("com.girish.aphotograph.URL", dataModel.details.get(position).getUrl());
+                intent.putExtra("com.girish.aphotograph.ID", dataModel.details.get(position).getId());
+                startActivity(intent);
             }
 
             @Override
