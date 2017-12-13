@@ -14,4 +14,10 @@
         <item name="android:windowTranslucentNavigation">true</item>
     </style>
 
+    <style name="FullScreenActivity" parent="AppTheme">
+        <item name="colorPrimary">#000</item>
+        <item name="colorPrimaryDark">#000</item>
+        <item name="colorAccent">#fff</item>
+    </style>
+
 </resources>
