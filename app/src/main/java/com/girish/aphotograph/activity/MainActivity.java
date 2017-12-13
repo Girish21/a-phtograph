@@ -2,6 +2,7 @@ package com.girish.aphotograph.activity;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -10,7 +11,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -127,8 +127,8 @@ public class MainActivity extends AppCompatActivity {
                                         switch (i) {
                                             case 0:
                                                 if (editorChecked != i)
-                                                    doSort(0, EndPoints.BY_CREAED_AT);
-//                                                    editorsChoice.sortData(EndPoints.BY_CREAED_AT);
+                                                    doSort(0, EndPoints.BY_CREATED_AT);
+//                                                    editorsChoice.sortData(EndPoints.BY_CREATED_AT);
                                                 dialogInterface.dismiss();
 //                                                editorsChoice = null;
                                                 editor = false;
@@ -172,8 +172,8 @@ public class MainActivity extends AppCompatActivity {
                                         switch (i) {
                                             case 0:
                                                 if (popularChecked != i)
-                                                    doSort(1, EndPoints.BY_CREAED_AT);
-//                                                    popularFragment.sortData(EndPoints.BY_CREAED_AT);
+                                                    doSort(1, EndPoints.BY_CREATED_AT);
+//                                                    popularFragment.sortData(EndPoints.BY_CREATED_AT);
                                                 dialogInterface.dismiss();
 //                                                popularFragment = null;
                                                 popular = false;

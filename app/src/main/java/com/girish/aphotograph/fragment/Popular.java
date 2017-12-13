@@ -66,7 +66,7 @@ public class Popular extends Fragment {
         retryFetch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendRequest(EndPoints.BY_CREAED_AT);
+                sendRequest(EndPoints.BY_CREATED_AT);
             }
         });
 
@@ -85,9 +85,9 @@ public class Popular extends Fragment {
                 recyclerView.setAdapter(new RecyclerAdapter(getContext(), dataModel));
                 recyclerView.scheduleLayoutAnimation();
             } else
-                sendRequest(EndPoints.BY_CREAED_AT);
+                sendRequest(EndPoints.BY_CREATED_AT);
         } else {
-            sendRequest(EndPoints.BY_CREAED_AT);
+            sendRequest(EndPoints.BY_CREATED_AT);
         }
 
         recyclerView.addOnItemTouchListener(new RecyclerClickListener(getContext(), recyclerView, new TouchListener() {
@@ -96,6 +96,7 @@ public class Popular extends Fragment {
 //                Toast.makeText(getContext(), "Clicked: " + position, Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), ViewActivity.class);
                 intent.putExtra("com.girish.aphotograph.URL", dataModel.details.get(position).getUrl());
+                intent.putExtra("com.girish.aphotograph.ID", dataModel.details.get(position).getId());
                 startActivity(intent);
             }
 
@@ -112,16 +113,16 @@ public class Popular extends Fragment {
         if (CheckConnection.isInternetAvailable(getContext())) {
 
             switch (sortBy) {
-                case EndPoints.BY_CREAED_AT:
-                    dataModelCall = util.listGetData(QueryParamsUtil.getQuery(EndPoints.POPULAR,
-                            EndPoints.BY_CREAED_AT));
+                case EndPoints.BY_CREATED_AT:
+                    dataModelCall = util.listGetData(QueryParamsUtil.getGeneralQuery(EndPoints.POPULAR,
+                            EndPoints.BY_CREATED_AT));
                     break;
                 case EndPoints.BY_RATING:
-                    dataModelCall = util.listGetData(QueryParamsUtil.getQuery(EndPoints.POPULAR,
+                    dataModelCall = util.listGetData(QueryParamsUtil.getGeneralQuery(EndPoints.POPULAR,
                             EndPoints.BY_RATING));
                     break;
                 case EndPoints.BY_TIMES_VIEWED:
-                    dataModelCall = util.listGetData(QueryParamsUtil.getQuery(EndPoints.POPULAR,
+                    dataModelCall = util.listGetData(QueryParamsUtil.getGeneralQuery(EndPoints.POPULAR,
                             EndPoints.BY_TIMES_VIEWED));
                     break;
             }

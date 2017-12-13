@@ -17,7 +17,7 @@ public interface EndPoints {
     String DEFAULT_STORE = "store_download";
     String EDITORS = "editors";
     String POPULAR = "popular";
-    String BY_CREAED_AT = "created_at";
+    String BY_CREATED_AT = "created_at";
     String BY_RATING = "highest_rating";
     String BY_TIMES_VIEWED = "times_viewed";
 

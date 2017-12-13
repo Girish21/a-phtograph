@@ -9,7 +9,7 @@ import java.util.Map;
  */
 
 public class QueryParamsUtil {
-    public static Map<String, String> getQuery(String type, String sortType) {
+    public static Map<String, String> getGeneralQuery(String type, String sortType) {
         Map<String, String> query = new HashMap<>();
 
         if (type.contains(EndPoints.EDITORS))
@@ -20,6 +20,15 @@ public class QueryParamsUtil {
         query.put(EndPoints.SORT_KEY, sortType);
         query.put(EndPoints.IMAGE_SIZE_KEY, EndPoints.DEFAULT_IMAGE_SIZE);
         query.put(EndPoints.STORE_KEY, EndPoints.DEFAULT_STORE);
+        query.put(EndPoints.CONSUMER_KEY_KEY, EndPoints.CONSUMER_KEY);
+
+        return query;
+    }
+
+    public static Map<String, String> getPhotoQuery() {
+        Map<String, String> query = new HashMap<>();
+
+        query.put(EndPoints.IMAGE_SIZE_KEY, "2048");
         query.put(EndPoints.CONSUMER_KEY_KEY, EndPoints.CONSUMER_KEY);
 
         return query;

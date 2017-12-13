@@ -71,7 +71,7 @@ public class EditorsChoice extends Fragment {
         retryFetch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendRequest(EndPoints.BY_CREAED_AT);
+                sendRequest(EndPoints.BY_CREATED_AT);
             }
         });
 
@@ -92,10 +92,10 @@ public class EditorsChoice extends Fragment {
                 recyclerView.setAdapter(new RecyclerAdapter(getContext(), dataModel));
                 recyclerView.scheduleLayoutAnimation();
             } else {
-                sendRequest(EndPoints.BY_CREAED_AT);
+                sendRequest(EndPoints.BY_CREATED_AT);
             }
         } else {
-            sendRequest(EndPoints.BY_CREAED_AT);
+            sendRequest(EndPoints.BY_CREATED_AT);
         }
 
         recyclerView.addOnItemTouchListener(new RecyclerClickListener(getContext(), recyclerView, new TouchListener() {
@@ -120,16 +120,16 @@ public class EditorsChoice extends Fragment {
     private void sendRequest(String sortBy) {
         if (CheckConnection.isInternetAvailable(getActivity())) {
             switch (sortBy) {
-                case EndPoints.BY_CREAED_AT:
-                    dataModelCall = util.listGetData(QueryParamsUtil.getQuery(EndPoints.EDITORS,
-                            EndPoints.BY_CREAED_AT));
+                case EndPoints.BY_CREATED_AT:
+                    dataModelCall = util.listGetData(QueryParamsUtil.getGeneralQuery(EndPoints.EDITORS,
+                            EndPoints.BY_CREATED_AT));
                     break;
                 case EndPoints.BY_RATING:
-                    dataModelCall = util.listGetData(QueryParamsUtil.getQuery(EndPoints.EDITORS,
+                    dataModelCall = util.listGetData(QueryParamsUtil.getGeneralQuery(EndPoints.EDITORS,
                             EndPoints.BY_RATING));
                     break;
                 case EndPoints.BY_TIMES_VIEWED:
-                    dataModelCall = util.listGetData(QueryParamsUtil.getQuery(EndPoints.EDITORS,
+                    dataModelCall = util.listGetData(QueryParamsUtil.getGeneralQuery(EndPoints.EDITORS,
                             EndPoints.BY_TIMES_VIEWED));
                     break;
             }
