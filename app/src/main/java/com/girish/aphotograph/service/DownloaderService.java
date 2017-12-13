@@ -2,14 +2,13 @@ package com.girish.aphotograph.service;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-
-import com.girish.aphotograph.R;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -50,10 +49,16 @@ public class DownloaderService extends IntentService {
                 builder = new NotificationCompat.Builder(getApplicationContext(), downloadNotificationChannelID);
                 builder.setContentTitle("Image Downloading")
                         .setContentText("Download in progress")
-                        .setSmallIcon(R.drawable.ic_file_download_black_24dp)
+                        .setSmallIcon(android.R.drawable.stat_sys_download)
                         .setAutoCancel(true)
                         .setShowWhen(true)
                         .setProgress(0, 0, true);
+
+                Intent nIntent = getPackageManager().
+                        getLaunchIntentForPackage("com.girish.aphotograph");
+                PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, nIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT);
+                builder.setContentIntent(pendingIntent);
 
                 if (manager != null)
                     manager.notify(id, builder.build());
@@ -86,7 +91,7 @@ public class DownloaderService extends IntentService {
                 }
                 Thread.sleep(100);
                 builder.setContentText("Download complete")
-                        .setSmallIcon(R.drawable.ic_done_black_24dp)
+                        .setSmallIcon(android.R.drawable.stat_sys_download_done)
                         .setProgress(0, 0, false);
                 if (manager != null)
                     manager.notify(id, builder.build());
@@ -97,6 +102,7 @@ public class DownloaderService extends IntentService {
             e.printStackTrace();
             if (builder != null && manager != null) {
                 builder.setProgress(0, 0, false)
+                        .setSmallIcon(android.R.drawable.stat_sys_warning)
                         .setContentText("Error cannot download");
                 manager.notify(id, builder.build());
             }
