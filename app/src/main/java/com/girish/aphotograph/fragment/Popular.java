@@ -2,11 +2,14 @@ package com.girish.aphotograph.fragment;
 
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,7 +59,10 @@ public class Popular extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        getActivity().getWindow().setSharedElementExitTransition(TransitionInflater.from(getActivity()).inflateTransition(R.transition.shared_element_transition));
         View view = inflater.inflate(R.layout.fragment_popular, container, false);
+
+        int orientation = getResources().getConfiguration().orientation;
 
         recyclerView = view.findViewById(R.id.popular_recycle_view);
         progressBar = view.findViewById(R.id.popular_progress);
@@ -70,7 +76,10 @@ public class Popular extends Fragment {
             }
         });
 
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        if (orientation == Configuration.ORIENTATION_PORTRAIT)
+            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        else
+            recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
         recyclerView.setHasFixedSize(true);
 
         Retrofit retrofit = MyApplication.getRetrofitApiClient();
@@ -94,10 +103,13 @@ public class Popular extends Fragment {
             @Override
             public void onClick(View view, int position) {
 //                Toast.makeText(getContext(), "Clicked: " + position, Toast.LENGTH_SHORT).show();
+                view.setTransitionName("rootImage");
+                ActivityOptionsCompat optionsCompat = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), view, view.getTransitionName());
+
                 Intent intent = new Intent(getActivity(), ViewActivity.class);
                 intent.putExtra("com.girish.aphotograph.URL", dataModel.details.get(position).getUrl());
                 intent.putExtra("com.girish.aphotograph.ID", dataModel.details.get(position).getId());
-                startActivity(intent);
+                startActivity(intent, optionsCompat.toBundle());
             }
 
             @Override

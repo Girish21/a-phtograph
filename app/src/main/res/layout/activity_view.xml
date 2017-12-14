@@ -27,7 +27,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
-                app:layout_collapseMode="parallax" />
+                app:layout_collapseMode="parallax"
+                android:transitionName="rootImage"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/view_tool_bar"
